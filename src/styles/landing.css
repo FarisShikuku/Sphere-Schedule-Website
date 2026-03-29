@@ -1312,3 +1312,9 @@ footer {
 }
 
 .auth-social .btn { width: 100%; }
+
+
+/* Auth tab fade */
+.auth-forms { position: relative; min-height: 360px; }
+.auth-pane { transition: opacity 0.35s ease, transform 0.35s ease; }
+.auth-pane.hidden { opacity: 0; transform: translateY(10px); pointer-events: none; position: absolute; inset: 0; }
