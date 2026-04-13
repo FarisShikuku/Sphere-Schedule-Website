@@ -1,9 +1,10 @@
 'use client';
 
+import { Suspense } from 'react';
 import { AuthPage } from '@/components/marketing/AuthPage';
 import { useRouter } from 'next/navigation';
 
-export default function RegisterPage() {
+function RegisterContent() {
   const router = useRouter();
 
   const handleBack = () => {
@@ -48,5 +49,17 @@ export default function RegisterPage() {
       onLogin={handleLogin}
       onSignup={handleSignup}
     />
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-bg">
+        <div className="text-text">Loading...</div>
+      </div>
+    }>
+      <RegisterContent />
+    </Suspense>
   );
 }
