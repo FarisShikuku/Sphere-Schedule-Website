@@ -383,3 +383,9 @@ body {
     display: block;
   }
 }
+/* Mobile menu button - show only on mobile */
+@media (max-width: 1023px) {
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+}

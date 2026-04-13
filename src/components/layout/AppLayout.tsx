@@ -12,7 +12,7 @@ import { SettingsPage } from '@/components/settings/SettingsPage';
 import { AnalyticsPage } from '@/components/dashboard/AnalyticsPage';
 
 export function AppLayout() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activePage, setActivePage] = useState('dashboard');
   const [userName, setUserName] = useState('Faris');
@@ -43,6 +43,17 @@ export function AppLayout() {
     });
     observer.observe(document.documentElement, { attributes: true });
     return () => observer.disconnect();
+  }, []);
+
+  // Close sidebar on mobile when screen becomes large
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsSidebarOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const toggleSidebarCollapse = () => {
@@ -122,7 +133,7 @@ export function AppLayout() {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg)' }}>
-      {/* Sidebar - Fixed on left, pushes content */}
+      {/* Sidebar - Fixed on left */}
       <aside
         style={{
           width: sidebarWidth,
@@ -333,7 +344,9 @@ export function AppLayout() {
               <div style={{ width: '32px', height: '32px', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px' }}>
                 <i className={`fas fa-${item.icon}`}></i>
               </div>
-              {!isCollapsed && <span style={{ fontSize: '13.5px', fontWeight: 600, flex: 1, textAlign: 'left' }}>{item.label}</span>}
+              {!isCollapsed && (
+                <span style={{ fontSize: '13.5px', fontWeight: 600, flex: 1, textAlign: 'left' }}>{item.label}</span>
+              )}
             </button>
           ))}
           <button
@@ -367,7 +380,7 @@ export function AppLayout() {
         </div>
       </aside>
 
-      {/* Main Content - This shifts right to make space for the fixed sidebar */}
+      {/* Main Content */}
       <div
         style={{
           marginLeft: sidebarWidth,
@@ -390,9 +403,9 @@ export function AppLayout() {
           padding: '0 20px',
           gap: '12px',
         }}>
-          {/* Mobile Menu Button - Only visible on mobile */}
+          {/* Mobile Menu Button */}
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             style={{
               width: '36px',
               height: '36px',
@@ -563,10 +576,10 @@ export function AppLayout() {
       </div>
 
       {/* Mobile Sidebar Overlay */}
-      {isMobileMenuOpen && (
+      {isSidebarOpen && (
         <>
           <div
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={() => setIsSidebarOpen(false)}
             style={{
               position: 'fixed',
               inset: 0,
@@ -588,7 +601,7 @@ export function AppLayout() {
               flexDirection: 'column',
             }}
           >
-            {/* Mobile sidebar content - same as desktop but without collapse button */}
+            {/* Mobile sidebar content */}
             <div style={{ padding: '20px 16px 14px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{ width: '34px', height: '34px', borderRadius: '10px', background: 'linear-gradient(135deg, #7c6cf8, #a855f7, #ff6b8a)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -596,7 +609,7 @@ export function AppLayout() {
                 </div>
                 <span style={{ fontFamily: 'var(--font-outfit)', fontSize: '17px', fontWeight: 800, color: 'var(--text)' }}>Sphere<span style={{ color: '#7c6cf8' }}>.</span></span>
               </div>
-              <button onClick={() => setIsMobileMenuOpen(false)} style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'var(--card)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-3)' }}>
+              <button onClick={() => setIsSidebarOpen(false)} style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'var(--card)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-3)' }}>
                 <i className="fas fa-times"></i>
               </button>
             </div>
@@ -617,7 +630,7 @@ export function AppLayout() {
               {[...navItems.main, ...navItems.workspace, ...navItems.bottom].map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => { setActivePage(item.id); setIsMobileMenuOpen(false); }}
+                  onClick={() => { setActivePage(item.id); setIsSidebarOpen(false); }}
                   style={{
                     width: '100%',
                     display: 'flex',
@@ -636,15 +649,15 @@ export function AppLayout() {
                     <i className={`fas fa-${item.icon}`}></i>
                   </div>
                   <span style={{ fontSize: '13.5px', fontWeight: 600, flex: 1, textAlign: 'left' }}>{item.label}</span>
-                  {item.badge && (
-                    <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 7px', borderRadius: '20px', background: 'rgba(255,107,138,0.15)', color: '#ff6b8a' }}>
-                      {item.badge}
+                  {(item as any).badge && (
+                    <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 7px', borderRadius: '20px', background: (item as any).badgeColor === 'green' ? 'rgba(45,212,160,0.15)' : 'rgba(255,107,138,0.15)', color: (item as any).badgeColor === 'green' ? '#2dd4a0' : '#ff6b8a' }}>
+                      {(item as any).badge}
                     </span>
                   )}
                 </button>
               ))}
               <button
-                onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
+                onClick={() => { handleLogout(); setIsSidebarOpen(false); }}
                 style={{
                   width: '100%',
                   display: 'flex',
