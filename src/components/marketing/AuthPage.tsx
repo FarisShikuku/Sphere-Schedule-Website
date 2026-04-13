@@ -41,9 +41,6 @@ export function AuthPage({ onBack, onLogin, onSignup }: AuthPageProps) {
     }
   };
 
-  // Get CSS variable values
-  const getCSSVar = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-
   const styles = {
     bg: 'var(--bg)',
     card: 'var(--card)',
@@ -63,8 +60,8 @@ export function AuthPage({ onBack, onLogin, onSignup }: AuthPageProps) {
       <div style={{ position: 'absolute', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(255,107,138,0.06)', bottom: '-50px', left: '10%', filter: 'blur(80px)', animation: 'float 12s ease-in-out 3s infinite', pointerEvents: 'none' }}></div>
 
       <div style={{ position: 'relative', zIndex: 10, minHeight: '100vh', display: 'flex' }}>
-        {/* Left Side - Branding */}
-        <div style={{ display: 'none', lg: 'flex', width: '50%', background: 'linear-gradient(135deg, #5e4ff0 0%, #7C3AED 50%, #A855F7 100%)', flexDirection: 'column', justifyContent: 'center', padding: '60px', position: 'relative', overflow: 'hidden' }} className="hidden lg:flex lg:w-1/2">
+        {/* Left Side - Branding (hidden on mobile, shown on lg) */}
+        <div className="hidden lg:flex lg:w-1/2" style={{ width: '50%', background: 'linear-gradient(135deg, #5e4ff0 0%, #7C3AED 50%, #A855F7 100%)', flexDirection: 'column', justifyContent: 'center', padding: '60px', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'rgba(255,255,255,0.06)', borderRadius: '50%', top: '-150px', right: '-100px', filter: 'blur(30px)' }}></div>
           <div style={{ position: 'absolute', width: '250px', height: '250px', background: 'rgba(255,107,138,0.12)', borderRadius: '50%', bottom: '-80px', left: '20%', filter: 'blur(20px)' }}></div>
           
@@ -106,7 +103,7 @@ export function AuthPage({ onBack, onLogin, onSignup }: AuthPageProps) {
         </div>
 
         {/* Right Side - Auth Form */}
-        <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }} className="lg:w-1/2 lg:p-12">
+        <div className="w-full lg:w-1/2" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px' }}>
           <div style={{ width: '100%', maxWidth: '420px' }}>
             <button
               onClick={onBack}
