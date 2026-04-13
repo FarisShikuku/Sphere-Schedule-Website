@@ -1,18 +1,22 @@
-import type { ReactNode } from 'react';
-import { Sidebar } from '@/components/layout/Sidebar';
-import { AppNavbar } from '@/components/layout/AppNavbar';
-import { BottomNav } from '@/components/layout/BottomNav';
-import { PageWrapper } from '@/components/layout/PageWrapper';
+'use client';
 
-export default function AppLayout({ children }: { children: ReactNode }) {
+import { ToastProvider } from '@/contexts/ToastContext';
+import { ThemeProvider } from '@/contexts/ThemeContext';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { AppShell } from '@/components/layout/AppShell';
+
+export default function AppLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div className="min-h-screen bg-slate-50">
-      <Sidebar />
-      <div className="lg:pl-64">
-        <AppNavbar />
-        <PageWrapper>{children}</PageWrapper>
-      </div>
-      <BottomNav />
-    </div>
+    <ThemeProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <AppShell>{children}</AppShell>
+        </AuthProvider>
+      </ToastProvider>
+    </ThemeProvider>
   );
 }

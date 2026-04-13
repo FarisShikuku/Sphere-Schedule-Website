@@ -1,25 +1,53 @@
-import type { ButtonHTMLAttributes } from 'react';
-import { cn } from '@/lib/utils/cn';
+'use client';
 
-type Props = ButtonHTMLAttributes<HTMLButtonElement> & { checked?: boolean };
+import { useState } from 'react';
 
-export function Toggle({ checked = false, className, ...props }: Props) {
+interface ToggleProps {
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
+  disabled?: boolean;
+}
+
+export function Toggle({ checked = false, onChange, disabled = false }: ToggleProps) {
+  const [isChecked, setIsChecked] = useState(checked);
+
+  const handleToggle = () => {
+    if (disabled) return;
+    const newValue = !isChecked;
+    setIsChecked(newValue);
+    onChange?.(newValue);
+  };
+
   return (
     <button
       type="button"
-      aria-pressed={checked}
-      className={cn(
-        'relative h-7 w-12 rounded-full transition',
-        checked ? 'bg-primary' : 'bg-slate-200',
-        className
-      )}
-      {...props}
+      onClick={handleToggle}
+      disabled={disabled}
+      style={{
+        position: 'relative',
+        width: 44,
+        height: 24,
+        borderRadius: 12,
+        background: isChecked ? 'var(--color-sphere)' : 'var(--card-2)',
+        border: isChecked ? 'none' : '1px solid var(--border)',
+        transition: 'background 0.3s',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.5 : 1,
+        flexShrink: 0,
+      }}
     >
-      <span
-        className={cn(
-          'absolute top-1 h-5 w-5 rounded-full bg-white shadow transition',
-          checked ? 'left-6' : 'left-1'
-        )}
+      <div
+        style={{
+          position: 'absolute',
+          top: 2,
+          width: 20,
+          height: 20,
+          borderRadius: '50%',
+          background: 'white',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.2)',
+          transform: isChecked ? 'translateX(20px)' : 'translateX(2px)',
+          transition: 'transform 0.3s',
+        }}
       />
     </button>
   );

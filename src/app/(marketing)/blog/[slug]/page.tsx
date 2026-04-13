@@ -1,19 +1,29 @@
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
+import { Metadata } from 'next';
 
-export default function BlogPostPage() {
+interface BlogPostPageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  return {
+    title: `Blog Post: ${params.slug} | Sphere Schedule`,
+    description: 'Read this article from Sphere Schedule.',
+  };
+}
+
+export default function BlogPostPage({ params }: BlogPostPageProps) {
   return (
-    <main>
-      <Navbar />
-      <section className="container-shell py-20 max-w-3xl">
-        <h1 className="text-4xl md:text-5xl font-semibold">Designing calm schedules</h1>
-        <p className="text-slate-500 mt-4">March 2026 ? 6 min read</p>
-        <div className="mt-8 space-y-4 text-slate-700">
-          <p>Sphere Schedule is built to reduce chaos by making planning a calmer, more adaptive experience.</p>
-          <p>We focus on protecting focus time, reducing meeting overload, and keeping teams aligned.</p>
+    <div className="min-h-screen pt-32 pb-20 px-6 md:px-10 lg:px-16">
+      <div className="max-w-3xl mx-auto">
+        <h1 className="font-outfit text-4xl md:text-5xl font-extrabold text-text mb-6">
+          Blog Post: {params.slug}
+        </h1>
+        <div className="bg-card border border-border rounded-xl p-8">
+          <p className="text-text-2">Blog post content coming soon...</p>
         </div>
-      </section>
-      <Footer />
-    </main>
+      </div>
+    </div>
   );
 }

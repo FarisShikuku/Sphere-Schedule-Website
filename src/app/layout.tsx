@@ -1,27 +1,60 @@
+import type { Metadata, Viewport } from 'next';
+import { Outfit, DM_Sans } from 'next/font/google';
 import './globals.css';
-import type { ReactNode } from 'react';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
-export const metadata = {
-  title: 'Sphere Schedule',
-  description: 'Intelligent scheduling for teams.',
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+  display: 'swap',
+});
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm',
+  display: 'swap',
+});
+
+export const metadata: Metadata = {
+  title: 'Sphere Schedule — Intelligent Scheduling for Teams',
+  description: 'Sphere Schedule is the all-in-one productivity hub — seamlessly organizing your tasks, meetings, appointments, and calendar with AI-powered intelligence.',
+  keywords: 'scheduling, productivity, tasks, calendar, meetings, appointments, AI',
+  authors: [{ name: 'Sphere Solution Developers' }],
+  robots: 'index, follow',
+  openGraph: {
+    title: 'Sphere Schedule — Intelligent Scheduling for Teams',
+    description: 'Organize your tasks, meetings, appointments, and calendar with AI-powered intelligence.',
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'Sphere Schedule',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sphere Schedule',
+    description: 'Organize your tasks, meetings, appointments, and calendar with AI-powered intelligence.',
+  },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f0efff' },
+    { media: '(prefers-color-scheme: dark)', color: '#080712' },
+  ],
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en" data-theme="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        />
-      </head>
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${outfit.variable} ${dmSans.variable} antialiased`}>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }
