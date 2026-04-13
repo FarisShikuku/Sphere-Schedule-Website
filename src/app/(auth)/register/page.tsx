@@ -11,35 +11,6 @@ export default function RegisterPage() {
   };
 
   const handleLogin = (name: string) => {
-    localStorage.setItem('userName', name);
-    router.push('/dashboard');
-  };
-
-  const handleSignup = (name: string) => {
-    localStorage.setItem('userName', name);
-    router.push('/dashboard');
-  };
-
-  return (
-    <AuthPage
-      onBack={handleBack}
-      onLogin={handleLogin}
-      onSignup={handleSignup}
-    />
-  );
-}'use client';
-
-import { AuthPage } from '@/components/marketing/AuthPage';
-import { useRouter } from 'next/navigation';
-
-export default function RegisterPage() {
-  const router = useRouter();
-
-  const handleBack = () => {
-    router.push('/');
-  };
-
-  const handleLogin = (name: string) => {
     const user = {
       id: '1',
       firstName: name,
