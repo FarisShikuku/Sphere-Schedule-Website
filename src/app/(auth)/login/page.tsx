@@ -11,12 +11,34 @@ export default function LoginPage() {
   };
 
   const handleLogin = (name: string) => {
-    localStorage.setItem('userName', name);
+    const user = {
+      id: '1',
+      firstName: name,
+      lastName: '',
+      email: `${name.toLowerCase()}@sphere.dev`,
+      role: 'admin',
+      plan: 'pro',
+      timezone: 'Africa/Lagos',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    localStorage.setItem('sphere_user', JSON.stringify(user));
     router.push('/dashboard');
   };
 
   const handleSignup = (name: string) => {
-    localStorage.setItem('userName', name);
+    const user = {
+      id: '1',
+      firstName: name,
+      lastName: '',
+      email: `${name.toLowerCase()}@sphere.dev`,
+      role: 'admin',
+      plan: 'pro',
+      timezone: 'Africa/Lagos',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    localStorage.setItem('sphere_user', JSON.stringify(user));
     router.push('/dashboard');
   };
 
