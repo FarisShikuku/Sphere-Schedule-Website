@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function ForgotPasswordPage() {
+function ForgotPasswordForm() {
   const router = useRouter();
   const [email, setEmail] = useState('');
 
@@ -47,5 +47,17 @@ export default function ForgotPasswordPage() {
         </button>
       </div>
     </div>
+  );
+}
+
+export default function ForgotPasswordPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-bg">
+        <div className="text-text">Loading...</div>
+      </div>
+    }>
+      <ForgotPasswordForm />
+    </Suspense>
   );
 }
