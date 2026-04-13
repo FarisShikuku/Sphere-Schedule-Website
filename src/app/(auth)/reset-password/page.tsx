@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-
+import { useState } from 'react';
 function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
